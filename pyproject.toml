@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "autouds"
-version = "0.1.0"
+dynamic = ["version"]
 description = "UDS (Unified Diagnostic Services) diagnostic tool over DoIP — ISO 14229-1"
 readme = "README.md"
 requires-python = ">=3.14"
@@ -29,6 +29,9 @@ Source = "https://github.com/leno166/autouds"
 
 [project.scripts]
 autouds = "autouds.__main__:main"
+
+[tool.hatch.version]
+source = "vcs"
 
 [dependency-groups]
 dev = [
