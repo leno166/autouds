@@ -13,11 +13,11 @@ wheels = [
 
 [[package]]
 name = "autodoip"
-version = "0.1.4"
+version = "0.1.7"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e8/9d/91d2b20865f27f5143699cf5b301f30d4ffb8434ad16abcb2f40a91083a3/autodoip-0.1.4.tar.gz", hash = "sha256:5a90815259eb587858e777d31b233058c9dbf0fe800a2e7a1afd2ba6feeacba1", size = 24724, upload-time = "2026-06-08T13:24:38.312Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/93/f2/82667700b4f98d917d5e84772ca190874e8bdf7bdf8ff7f71babcfed84af/autodoip-0.1.7.tar.gz", hash = "sha256:9aae7bca35220ec8f3eafe166aac67a30839dbadccb3d2a8642d4a28afaf46fa", size = 26792, upload-time = "2026-07-02T18:00:03.631Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/51/2c/6e858eeaf9a953bb585468358c5d10ff732b9821cfe4e5940f0c69012d95/autodoip-0.1.4-py3-none-any.whl", hash = "sha256:927a5766460b60da1cdfdae8b6539a980b9ae0b1a2a4aaa4bade36c3c2693fe9", size = 10324, upload-time = "2026-06-08T13:24:36.954Z" },
+    { url = "https://files.pythonhosted.org/packages/9c/63/7fa439c0b2346053ed71ace96a0ecc74c8a6d4f5f26ac25832881329d6f4/autodoip-0.1.7-py3-none-any.whl", hash = "sha256:3f646245db3b48f2e847acc83f7bfc1648aa635b5c434752865ec2ba4a22b472", size = 10619, upload-time = "2026-07-02T18:00:07.372Z" },
 ]
 
 [[package]]
@@ -37,7 +37,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "autodoip", specifier = ">=0.1.4" },
+    { name = "autodoip", specifier = ">=0.1.7" },
     { name = "pydantic", specifier = ">=2.0" },
 ]
 
