@@ -8,7 +8,7 @@
 """
 from typing import Generator
 from autodoip import Endpoint, Config as DoIpConfig
-from ._handler import handler, set_send_impl
+from ._handler import handler
 from ._models import Response
 
 
@@ -30,9 +30,10 @@ class App:
         }
 
         self._endpoint = Endpoint(ip=ip, ecus=endpoint_ecus, port=port, tester=tester, config=doip_config or DoIpConfig())
+        self._send_impl = self._endpoint.conversation
         self._endpoint.start()
         self._endpoint.select(ecus[self._first_name][0])
-        set_send_impl(self._endpoint.conversation)
+        App._latest = self
 
     def on(self, name: str):
         """切换到指定 ECU。"""

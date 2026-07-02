@@ -6,8 +6,8 @@
 @描述:
 @版本: Version 0.1
 """
-from ._handler import handler, set_send_impl
+from ._handler import handler
 from ._models import Response, Request, UdsError
 from .app import App
 
-__all__ = ['handler', 'set_send_impl', 'Response', 'Request', 'UdsError', 'App']
+__all__ = ['handler', 'Response', 'Request', 'UdsError', 'App']

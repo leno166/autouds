@@ -56,9 +56,9 @@ def handler(*args, **kwargs):
                 'params'                    : params
             })
 
-            # 6. 发送请求、收集响应
+            # 5. 发送请求、收集响应
             resp: Response | None = None
-            for raw in send(request.raw):
+            for raw in self._send_impl(request.raw):
                 resp = Response.model_validate({
                     'raw': raw, 'request': request, 'father': resp
                 })
@@ -85,22 +85,3 @@ def handler(*args, **kwargs):
         return wrapper
 
     return decorator(fn) if fn else decorator
-
-
-# ═══════════════════════════════════════════════════════════════════════
-# 发送桥接
-# ═══════════════════════════════════════════════════════════════════════
-
-_send_impl = None
-
-
-def set_send_impl(func):
-    """注入真正的 send 实现（生成器函数，接收 bytes 载荷，yield 原始响应字节）。"""
-    global _send_impl
-    _send_impl = func
-
-
-def send(payload: bytes):
-    if _send_impl is None:
-        raise RuntimeError("请先调用 set_send_impl() 设置发送函数")
-    yield from _send_impl(payload)
