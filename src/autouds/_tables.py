@@ -350,7 +350,7 @@ SUB_FN_MAP = {
 
         '请求运行结果'           : 0x03,
         'request routine results': 0x03,
-        'result'                 : 0x03,
+        'req'                    : 0x03,
     },
 
 }

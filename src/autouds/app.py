@@ -231,19 +231,20 @@ class App:
     # 例行程序控制 (0x31)
     # ═══════════════════════════════════════════════════════════════════
 
-    @handler(service_name='routine', sub_fn_name='start')
-    def routine_start(self) -> Generator[None, Response, Response]:
-        resp: Response = yield
-        return resp
+    @handler(service_name='routine')
+    def routine(self, *, routine_id: int, sub_fn_name: str, data: bytes = b'') -> Generator[bytes, Response, Response]:
+        """发送 0x31 RoutineControl 报文。
 
-    @handler(service_name='routine', sub_fn_name='stop')
-    def routine_stop(self) -> Generator[None, Response, Response]:
-        resp: Response = yield
-        return resp
+        routine_id:  例程编号 (如 0x0237)
+        sub_fn_name: 子功能 ('start' / 'stop' / 'req')
+        data:        附加数据，拼在 routine_id 之后
 
-    @handler(service_name='routine', sub_fn_name='result')
-    def routine_result(self) -> Generator[None, Response, Response]:
-        resp: Response = yield
+        例:
+          self.routine(routine_id=0x0237, sub_fn_name='start', data=glid)  → 31 01 02 37 <glid>
+          self.routine(routine_id=0x0237, sub_fn_name='stop')              → 31 02 02 37
+          self.routine(routine_id=0x0237, sub_fn_name='req')               → 31 03 02 37
+        """
+        resp: Response = yield routine_id.to_bytes(2, 'big') + data
         return resp
 
     # ═══════════════════════════════════════════════════════════════════

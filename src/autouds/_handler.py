@@ -9,8 +9,11 @@
 from __future__ import annotations
 
 import functools
+import logging
 from typing import Callable, Generator, ParamSpec, TypeVar
 from ._models import Request, Response, UdsError
+
+_log = logging.getLogger(__name__)
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -30,12 +33,12 @@ def handler(*args, **kwargs):
             sub_fn = kwargs.get('sub_fn', None)
             supp = kwargs.get('suppress_positive_response', None)
 
-            # 2. 调用时关键字覆盖：不传则保留装饰器参数
-            s_name = inner_kwargs.pop('service_name', s_name)
-            s_id = inner_kwargs.pop('s_id', s_id)
-            fn_name = inner_kwargs.pop('sub_fn_name', fn_name)
-            sub_fn = inner_kwargs.pop('sub_fn', sub_fn)
-            supp = inner_kwargs.pop('suppress_positive_response', supp)
+            # 2. 调用时关键字覆盖：不传则保留装饰器参数（get 不删除，函数需要时也能收到）
+            s_name = inner_kwargs.get('service_name', s_name)
+            s_id = inner_kwargs.get('s_id', s_id)
+            fn_name = inner_kwargs.get('sub_fn_name', fn_name)
+            sub_fn = inner_kwargs.get('sub_fn', sub_fn)
+            supp = inner_kwargs.get('suppress_positive_response', supp)
 
             # 3. 最终默认值
             if supp is None:
@@ -45,7 +48,17 @@ def handler(*args, **kwargs):
             gen = f(self, *inner_args, **inner_kwargs)
             params = next(gen)  # 驱动生成器到第一个 yield
             if params is not None and not isinstance(params, bytes):
-                raise TypeError("生成器第一个 yield 必须为 bytes 或 None")
+                _log.error(
+                    '%s.%s 第一个 yield 类型错误：期望 bytes 或 None，实际 %s，值=%r',
+                    type(self).__name__,
+                    f.__name__,
+                    type(params).__name__,
+                    params if len(repr(params)) <= 200 else repr(params)[:200] + '…',
+                )
+                raise TypeError(
+                    f'{type(self).__name__}.{f.__name__} '
+                    f'第一个 yield 必须为 bytes 或 None，实际为 {type(params).__name__}'
+                ) from None
 
             request = Request.model_validate({
                 'service_name'              : s_name,
